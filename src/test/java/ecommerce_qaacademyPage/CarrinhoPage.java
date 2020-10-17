@@ -30,7 +30,7 @@ public class CarrinhoPage {
 
 		driver.findElement(By.xpath(
 				"//body/div[1]/div[1]/div[4]/div[1]/div[1]/div[3]/div[2]/div[2]/div[1]/div[2]/div[1]/ul[1]/li[1]/button[1]/span[1]/span[1]"))
-				.click(); // finalziando a compra
+				.click(); // finalizando a compra
 
 		driver.findElement(By.xpath("//input[@id='email']")).sendKeys("teste.teste@gmail.com");
 

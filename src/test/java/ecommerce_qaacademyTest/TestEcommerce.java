@@ -14,26 +14,30 @@ import ecommerce_qaacademyPage.ResultadoBuscaPage;
 
 public class TestEcommerce {
 	WebDriver driver;
+	HomePage homePage;
+	ResultadoBuscaPage resultadoBuscaPage;
+	CarrinhoPage carrinhoPage;
 		
 	@Before
-	public void abreUrl() {
-//		driver = new ChromeDriver();	
+	public void before() {
+		// verificasistema operacional
+		// configura chromeDriver
+		homePage = new HomePage(driver);
 }
+	
+	@After
+	public void fecharSite() {
+		driver.quit();
+
+	}
+
 
 	@Test
-	public void realizarCompra() {
-		
-		HomePage home = new HomePage(driver);
-		ResultadoBuscaPage resultbusca = new ResultadoBuscaPage();
-				
-		home.abrirUrl ("http://www.supermercadodospets.com.br");
-		home.buscarItem();
-		
-		resultbusca.clicarNoProduto();
-
-		// CarrinhoPage carrinho = new CarrinhoPage();
-		// carrinho.incluirItemNoCarrinho();
-
+	public void realizarCompra() {						
+		homePage.abrirUrl ("http://www.supermercadodospets.com.br");
+	//	homePage.buscarItem("coleira");
+	//	resultadoBuscaPage.clicarNoProduto();
+	//	carrinhoPage.incluirItemNoCarrinho();
 	}
 
 //	public void alterarProdutoDoCarrinho() {
@@ -42,11 +46,7 @@ public class TestEcommerce {
 //		
 //	}
 
-//	@After
-//	public void fecharDriver() {
-//		driver.quit(); // fecha a aba e finaliza a execução
-//
-//	}
+
 
 
 
