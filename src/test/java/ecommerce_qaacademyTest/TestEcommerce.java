@@ -7,10 +7,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
-
 import ecommerce_qaacademyPage.CarrinhoPage;
 import ecommerce_qaacademyPage.HomePage;
 import ecommerce_qaacademyPage.ResultadoBuscaPage;
+import static org.junit.Assert.assertEquals;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.chrome.ChromeOptions;
+import exceptions.ElementoNaoEncontradoException;
+
 
 public class TestEcommerce {
 	WebDriver driver;
@@ -22,8 +26,19 @@ public class TestEcommerce {
 	public void before() {
 		// verificasistema operacional
 		// configura chromeDriver
+		driver = new ChromeDriver();
 		homePage = new HomePage(driver);
+		resultadoBuscaPage = new ResultadoBuscaPage(driver);
+		carrinhoPage = new CarrinhoPage(driver);
 }
+	
+	@Test
+	public void realizarCompra() {						
+		homePage.abrirUrl ("http://www.supermercadodospets.com.br");
+	//	homePage.buscarItem("coleira");
+	//	resultadoBuscaPage.clicarNoProduto();
+	//	carrinhoPage.incluirItemNoCarrinho();
+	}
 	
 	@After
 	public void fecharSite() {
@@ -32,22 +47,11 @@ public class TestEcommerce {
 	}
 
 
-	@Test
-	public void realizarCompra() {						
-		homePage.abrirUrl ("http://www.supermercadodospets.com.br");
-	//	homePage.buscarItem("coleira");
-	//	resultadoBuscaPage.clicarNoProduto();
-	//	carrinhoPage.incluirItemNoCarrinho();
-	}
-
 //	public void alterarProdutoDoCarrinho() {
 //		CarrinhoPage carrinho = new CarrinhoPage();
 //		carrinho.alterarItemDoCarrinho();
 //		
 //	}
-
-
-
 
 
 }

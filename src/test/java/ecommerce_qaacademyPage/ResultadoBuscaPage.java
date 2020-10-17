@@ -5,9 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ResultadoBuscaPage {
+	WebDriver driver;
 	
-	WebDriver driver = new ChromeDriver();
-	
+	public ResultadoBuscaPage(WebDriver driver) {
+		this.driver = driver;
+	}
+
+
 	public void clicarNoProduto() {
 
 	driver.findElement(By.xpath("//img[@id='product-collection-image-2439']")).click(); // Clicando no produto

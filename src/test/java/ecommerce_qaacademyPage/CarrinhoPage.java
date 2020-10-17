@@ -6,7 +6,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
 public class CarrinhoPage {
-	WebDriver driver = new ChromeDriver();
+	WebDriver driver;
+	public CarrinhoPage(WebDriver driver) {
+		this.driver = driver;
+	}
 
 	public void incluirItemNoCarrinho() {
 		
@@ -38,7 +41,7 @@ public class CarrinhoPage {
 		
 	}
 
-	
+}
 //	public void alterarItemDoCarrinho() {
 //		
 //	}
@@ -47,4 +50,4 @@ public class CarrinhoPage {
 //	
 //}
 	
-}
+
