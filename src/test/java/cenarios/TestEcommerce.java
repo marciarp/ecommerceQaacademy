@@ -21,6 +21,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import Utils.LeitorMassaJson;
 import exceptions.ElementoNaoEncontradoException;
 import page.BasePage;
 import page.CarrinhoPage;
@@ -30,14 +31,20 @@ import page.ResultadoBuscaPage;
 
 public class TestEcommerce {
 	WebDriver driver;
+	
 	HomePage homePage;
 	ResultadoBuscaPage resultadoBuscaPage;
 	CarrinhoPage carrinhoPage;
 	LoginPage loginPage;
+	LeitorMassaJson leitorMassa;
 	public static final Logger logger = Logger.getLogger(TestEcommerce.class);
 
+	
+	
 	@Before
-	public void before() {
+	public void before() throws IOException {
+		leitorMassa = new LeitorMassaJson();
+		leitorMassa.leitorJson();
 		verificaSistemaOperacionalESetaChromeDriver();
 		configuraChromeDriver();
 		homePage = new HomePage(driver);
@@ -55,9 +62,11 @@ public class TestEcommerce {
 	@Test
 	public void realizarCompra() throws IOException, ElementoNaoEncontradoException {
 		try {
-			String preco = "R$ 44,59";
-			homePage.abrirUrl("http://www.supermercadodospets.com.br");
-			homePage.buscarProduto("coleira");
+			String preco = leitorMassa.getMassa("preco_atual");
+//			homePage.abrirUrl("http://www.supermercadodospets.com.br");
+			homePage.abrirUrl(leitorMassa.getMassa("url"));			
+//			homePage.buscarProduto("coleira");
+			homePage.buscarProduto(leitorMassa.getMassa("produto"));
 			resultadoBuscaPage.clicarNoProduto();
 			String valorSite = carrinhoPage.retornaValorProduto();
 			logger.info("Valor Retornado: " + valorSite);
@@ -90,4 +99,5 @@ public class TestEcommerce {
 			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
 		}
 	}
+		
 }
