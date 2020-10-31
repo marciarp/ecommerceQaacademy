@@ -104,12 +104,12 @@ public class TestEcommerce {
 	}
 
 	private void verificaSistemaOperacionalESetaChromeDriver() {
-//		System.out.println(System.getProperty("os.name"));
-//		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-//			System.setProperty("/Users/Marcia de Paula/Desktop/ProjetoAutomação/chromedriver", "chromedriver.exe");
-//		} else {
-//			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-//		}
+		System.out.println(System.getProperty("os.name"));
+		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+			System.setProperty("/Users/Marcia de Paula/Desktop/ProjetoAutomação/chromedriver", "chromedriver.exe");
+		} else {
+			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+		}
 	}
 	
 	public long calcularTempoExecucao(long inicio, long fim) {
