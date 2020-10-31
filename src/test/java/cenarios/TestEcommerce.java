@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import javax.sound.midi.MidiDevice.Info;
@@ -22,6 +23,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import Utils.LeitorMassaJson;
+import dao.DaoCenariosTest;
 import exceptions.ElementoNaoEncontradoException;
 import page.BasePage;
 import page.CarrinhoPage;
@@ -38,11 +40,13 @@ public class TestEcommerce {
 	LoginPage loginPage;
 	LeitorMassaJson leitorMassa;
 	public static final Logger logger = Logger.getLogger(TestEcommerce.class);
+	long inicioTeste, fimTeste;
+	DaoCenariosTest massasDeTeste;
 
 	
-	
 	@Before
-	public void before() throws IOException {
+	public void before() throws IOException, SQLException {
+		inicioTeste = System.currentTimeMillis();
 		leitorMassa = new LeitorMassaJson();
 		leitorMassa.leitorJson();
 		verificaSistemaOperacionalESetaChromeDriver();
@@ -51,22 +55,30 @@ public class TestEcommerce {
 		resultadoBuscaPage = new ResultadoBuscaPage(driver);
 		carrinhoPage = new CarrinhoPage(driver);
 		loginPage = new LoginPage(driver);
+		massasDeTeste = new DaoCenariosTest();
+		String massasStringJson = massasDeTeste.loadData();		
+		massasDeTeste.convertToJson(massasStringJson);
+		massasDeTeste.insertExecucaoTeste();
+		
 	}
 
 	@After
-	public void fecharSite() {
+	public void fecharSite() throws SQLException {
 		driver.quit();
-
+		fimTeste = System.currentTimeMillis();
+		logger.info(calcularTempoExecucao(inicioTeste, fimTeste));
+        massasDeTeste.finalizaExecucaoTeste();
+        
 	}
 
 	@Test
 	public void realizarCompra() throws IOException, ElementoNaoEncontradoException {
 		try {
-			String preco = leitorMassa.getMassa("preco_atual");
-//			homePage.abrirUrl("http://www.supermercadodospets.com.br");
-			homePage.abrirUrl(leitorMassa.getMassa("url"));			
+			String preco = massasDeTeste.getData("preco_atual");
+			homePage.abrirUrl("http://www.supermercadodospets.com.br");
+			homePage.abrirUrl(massasDeTeste.getData("url"));			
 //			homePage.buscarProduto("coleira");
-			homePage.buscarProduto(leitorMassa.getMassa("produto"));
+			homePage.buscarProduto(massasDeTeste.getData("produto"));
 			resultadoBuscaPage.clicarNoProduto();
 			String valorSite = carrinhoPage.retornaValorProduto();
 			logger.info("Valor Retornado: " + valorSite);
@@ -92,12 +104,17 @@ public class TestEcommerce {
 	}
 
 	private void verificaSistemaOperacionalESetaChromeDriver() {
-		System.out.println(System.getProperty("os.name"));
-		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-			System.setProperty("/Users/Marcia de Paula/Desktop/ProjetoAutomação/chromedriver", "chromedriver.exe");
-		} else {
-			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-		}
+//		System.out.println(System.getProperty("os.name"));
+//		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+//			System.setProperty("/Users/Marcia de Paula/Desktop/ProjetoAutomação/chromedriver", "chromedriver.exe");
+//		} else {
+//			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+//		}
+	}
+	
+	public long calcularTempoExecucao(long inicio, long fim) {
+		return (fim-inicio) /1000;
+		
 	}
 		
 }
